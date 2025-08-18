@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Blog Neo Net - Grupo Zyntra</title>
+<link rel="icon" href="https://files.catbox.moe/t696qp.png">
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #0e0e0e;
+    color: #d4d4d4;
+    max-width: 900px;
+    margin: auto;
+    padding: 20px;
+  }
+  header {
+    background-color: #0f3d0f;
+    padding: 20px;
+    text-align: center;
+  }
+  header h1 {
+    margin: 0;
+    color: #00ff88;
+  }
+  nav {
+    background-color: #111;
+    padding: 10px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  nav a {
+    color: #00ff88;
+    margin: 0 15px;
+    text-decoration: none;
+  }
+  nav a:hover {
+    text-decoration: underline;
+  }
+  article {
+    background-color: #1a1a1a;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+  }
+  article h2 {
+    color: #00ff88;
+  }
+  article small {
+    color: #888;
+  }
+  footer {
+    text-align: center;
+    padding: 15px;
+    background-color: #0f3d0f;
+    color: #00ff88;
+    margin-top: 30px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Blog Oficial - Neo Net</h1>
+  <p>Conectando o mundo com segurança e inovação - Grupo Zyntra</p>
+</header>
+
+<nav>
+  <a href="#">Início</a>
+  <a href="#">Sobre</a>
+  <a href="#">Contato</a>
+</nav>
+
+<main id="articlesContainer">
+  <!-- Artigos vão ser carregados aqui pelo JS -->
+</main>
+
+<footer>
+  <p>Neo Net - Parte do Grupo Zyntra © 2025 | Todos os direitos reservados</p>
+</footer>
+
+<script>
+  async function carregarArtigos() {
+    const container = document.getElementById('articlesContainer');
+    try {
+      const response = await fetch('artigos.json');
+      if (!response.ok) throw new Error('Erro ao carregar artigos.json');
+      
+      const artigos = await response.json();
+      if (artigos.length === 0) {
+        container.innerHTML = '<p>Nenhum artigo publicado ainda.</p>';
+        return;
+      }
+      
+      let html = '';
+      artigos.forEach(artigo => {
+        html += `<article>
+          <h2>${artigo.titulo}</h2>
+          <small>Publicado em ${artigo.data}</small>
+          <div>${artigo.conteudo}</div>
+        </article>`;
+      });
+      
+      container.innerHTML = html;
+    } catch (error) {
+      container.innerHTML = '<p>Erro ao carregar os artigos.</p>';
+      console.error(error);
+    }
+  }
+
+  window.onload = carregarArtigos;
+</script>
+
+</body>
+</html>
